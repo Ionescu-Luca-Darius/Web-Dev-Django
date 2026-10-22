@@ -52,11 +52,46 @@ def log(request):
             accesari_copie = accesari_copie[-n:]
         except ValueError:
             pass
+    tabel_param = request.GET.get('tabel')
 
     continut_html += "<section>"
     continut_html += "<h3>Lista Accesărilor Înregistrate</h3>"
     if not accesari_copie:
         continut_html += "<p>Nu există accesări înregistrate în sesiune.</p>"
+    elif tabel_param:
+        if tabel_param.lower() == 'tot':
+            coloane = ['id', 'ip_client', 'url', 'pagina', 'data', 'lista_parametri']
+        else:
+            coloane = [c.strip() for c in tabel_param.split(',')]
+            
+        continut_html += "<div style='overflow-x: auto;'>"
+        continut_html += "<table style='width: 100%; border-collapse: collapse; background-color: #1a1a1a; color: #e0e0e0; margin-top: 15px; border: 1px solid #d4af37;'>"
+        continut_html += "<thead><tr style='background-color: #990000; color: #d4af37;'>"
+        for col in coloane:
+            continut_html += f"<th style='padding: 12px; border: 1px solid #333; text-align: left;'>{col.upper()}</th>"
+        continut_html += "</tr></thead><tbody>"
+        
+        for acc in accesari_copie:
+            continut_html += "<tr style='border-bottom: 1px solid #333;'>"
+            for col in coloane:
+                val = "-"
+                if col == 'id':
+                    val = acc.id
+                elif col == 'ip_client':
+                    val = acc.ip_client
+                elif col == 'url':
+                    val = acc.string_url()
+                elif col == 'pagina':
+                    val = acc.pagina()
+                elif col == 'data':
+                    val = acc.data.strftime('%d-%m-%Y %H:%M:%S')
+                elif col == 'lista_parametri':
+                    val = str(acc.lista_parametri())
+                else:
+                    val = getattr(acc, col, '-')
+                continut_html += f"<td style='padding: 10px; border: 1px solid #333;'>{val}</td>"
+            continut_html += "</tr>"
+        continut_html += "</tbody></table></div>"    
     else:
         continut_html += "<ul style='list-style-type: none; padding: 0;'>"
         for acc in accesari_copie:
