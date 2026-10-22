@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Magazin de Mobila{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>    
+<body>
+    <header>
+        <h1>Magazin de Mobila Online</h1>
+        <nav>
+            <ul>
+                <li><a href="{%url 'index' %}">Acasa</a>
+                    <ul class="dropdown">
+                        <li><a href="{% url 'index' %}#promotii">Promotii Curente</a></li>
+                        <li><a href="{% url 'index' %}#orar">Orar de Lucru</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'despre' %}">Despre</a></li>
+                <li><a href="{% url 'istoric' %}">Istoric</a></li>
+                <li><a href="{% url 'produse' %}">Produse</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'cos_virtual' %}">Cos Virtual</a></li>
+                <li><a href="{% url 'info' %}">Info Server</a></li>
+                <li><a href="{% url 'log' %}">Jurnal Log</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main style="padding: 20px;">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; {{ firma.an_infiintare}} <strong>{{ firma.nume_firma }}</strong>. Toate drepturile rezervate.</p>
+        <p>Adresa: {{ firma.adresa }} | Telefon: {{ firma.telefon }}</p>
+        <p><em>{{ firma.slogan }}</em> - {{ firma.certificare }}</p>
+        <p><strong>IP-ul tau:</strong> {{ request.client_ip }}</p>
+    </footer>
+</body>
+</html>

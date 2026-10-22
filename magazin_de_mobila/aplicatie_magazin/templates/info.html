@@ -1,0 +1,16 @@
+{% extends 'baza.html' %}
+
+{% block title %}Informatii Server - Magazin de Mobila{% endblock %}
+
+{% block content %}
+    <h2>Informatii despre server</h2>
+
+    <div style="margin-top: 20px;">
+        {{ rezultat_data|safe }}
+    </div>
+
+    <section style="margin-top: 20px;">
+        <h3>Detalii Tehnice</h3>
+        <p>Aceasta pagina afiseaza informatii de timp generate dinamic prin intermediul clasei de monitorizare a accesarilor.</p>
+    </section>
+{% endblock %}
